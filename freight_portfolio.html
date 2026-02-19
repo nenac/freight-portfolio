@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freight Workflow Automation | Nena Caviness</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --slate: #3d3d5c;
+    --muted: #6b6b8a;
+    --border: #d4d4e8;
+    --surface: #f4f3f0;
+    --card: #ffffff;
+    --accent: #2d6a4f;
+    --accent-light: #d8f3dc;
+    --accent-mid: #52b788;
+    --warm: #e8c87a;
+    --warm-light: #fef3d0;
+    --phase-intake: #2d6a4f;
+    --phase-quote: #1b4965;
+    --phase-process: #7b2d8e;
+    --phase-fulfill: #c25e30;
+    --phase-close: #2d6a4f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    background: var(--surface);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: var(--ink);
+    color: #fff;
+    padding: 5rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(45,106,79,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-mid);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.7);
+    max-width: 640px;
+    line-height: 1.7;
+  }
+  .hero-meta {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .hero-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .hero-meta-item span:first-child {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+  }
+  .hero-meta-item span:last-child {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.85);
+    font-weight: 500;
+  }
+
+  /* ── Section containers ── */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  .section h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+  .section p {
+    color: var(--slate);
+    max-width: 680px;
+    margin-bottom: 1rem;
+  }
+
+  /* ── Problem / Solution cards ── */
+  .split-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  @media (max-width: 680px) {
+    .split-cards { grid-template-columns: 1fr; }
+  }
+  .split-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid var(--border);
+  }
+  .split-card.problem {
+    border-left: 4px solid #c25e30;
+  }
+  .split-card.solution {
+    border-left: 4px solid var(--accent);
+  }
+  .split-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+  .split-card ul {
+    list-style: none;
+    padding: 0;
+  }
+  .split-card li {
+    padding: 0.5rem 0;
+    padding-left: 1.4rem;
+    position: relative;
+    color: var(--slate);
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+  .split-card.problem li::before {
+    content: '!';
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    width: 18px;
+    height: 18px;
+    background: #fde8e0;
+    color: #c25e30;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .split-card.solution li::before {
+    content: '\2713';
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    width: 18px;
+    height: 18px;
+    background: var(--accent-light);
+    color: var(--accent);
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── System Architecture ── */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .arch-node {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .arch-node:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  }
+  .arch-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.75rem;
+    font-size: 1.2rem;
+  }
+  .arch-node h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+  }
+  .arch-node p {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  /* ── Process Flow ── */
+  .flow-section {
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 4rem 2rem;
+  }
+  .flow-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .phase-nav {
+    display: flex;
+    gap: 0.5rem;
+    margin: 2rem 0 1.5rem;
+    flex-wrap: wrap;
+  }
+  .phase-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--slate);
+  }
+  .phase-btn:hover {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+  }
+  .phase-btn.active {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+  }
+
+  .steps-container {
+    position: relative;
+  }
+  .step-group {
+    display: none;
+  }
+  .step-group.active {
+    display: block;
+  }
+  .step-group-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .step-group-badge {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .step-group-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+  .step-group-desc {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .step-card {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 0.75rem;
+    display: grid;
+    grid-template-columns: 32px 1fr auto;
+    gap: 1rem;
+    align-items: start;
+    transition: background 0.15s;
+  }
+  .step-card:hover {
+    background: #eceae6;
+  }
+  .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .step-content h5 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  .step-content p {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .step-tool {
+    font-size: 0.7rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.6rem;
+    border-radius: 100px;
+    color: var(--muted);
+    font-weight: 500;
+    white-space: nowrap;
+    align-self: center;
+  }
+
+  /* ── Data Flow Diagram ── */
+  .dataflow {
+    margin-top: 2.5rem;
+    background: var(--ink);
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    color: #fff;
+    overflow-x: auto;
+  }
+  .dataflow h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  .flow-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    min-width: fit-content;
+  }
+  .flow-node {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    text-align: center;
+    min-width: 100px;
+  }
+  .flow-node-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 0.2rem;
+  }
+  .flow-node-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+  .flow-arrow {
+    color: var(--accent-mid);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  /* ── Design Decisions ── */
+  .decisions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+  @media (max-width: 680px) {
+    .decisions-grid { grid-template-columns: 1fr; }
+  }
+  .decision-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+  }
+  .decision-card h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+  }
+  .decision-card p {
+    font-size: 0.85rem;
+    color: var(--slate);
+    margin: 0;
+    line-height: 1.55;
+  }
+  .decision-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.6rem;
+  }
+  .tag-cost { background: #fef3d0; color: #8a6d00; }
+  .tag-speed { background: #d8f3dc; color: #2d6a4f; }
+  .tag-scale { background: #e0e7ff; color: #3730a3; }
+  .tag-accuracy { background: #fde8e0; color: #c25e30; }
+
+  /* ── Impact ── */
+  .impact-strip {
+    background: var(--accent);
+    color: #fff;
+    padding: 3.5rem 2rem;
+  }
+  .impact-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .impact-inner .section-label {
+    color: var(--accent-light);
+  }
+  .impact-inner h2 {
+    color: #fff;
+  }
+  .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+  .impact-card {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 1.5rem;
+  }
+  .impact-card .number {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.35rem;
+  }
+  .impact-card .label {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.4;
+  }
+
+  /* ── Skills ── */
+  .skills-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  .skill-tag {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--slate);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.6);
+    padding: 3rem 2rem;
+    text-align: center;
+    font-size: 0.85rem;
+  }
+  .footer a {
+    color: var(--accent-mid);
+    text-decoration: none;
+  }
+  .footer-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">Operations Portfolio</div>
+    <h1>Freight Workflow Automation</h1>
+    <p class="hero-sub">
+      Designed and implemented an end-to-end freight coordination system that replaced 
+      fragmented manual processes with a structured, repeatable workflow spanning customer 
+      intake through final delivery tracking.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span>Role</span>
+        <span>VP, Operations</span>
+      </div>
+      <div class="hero-meta-item">
+        <span>Company</span>
+        <span>TCW Equipment (B2B Manufacturer)</span>
+      </div>
+      <div class="hero-meta-item">
+        <span>Scope</span>
+        <span>LTL / Freight / Import Logistics</span>
+      </div>
+      <div class="hero-meta-item">
+        <span>Tools</span>
+        <span>Google Sheets, Front, Odoo CRM, Zulip</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ RELEVANCE CALLOUT ══ -->
+<section class="section" style="padding-bottom: 2rem;">
+  <div style="background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; border-left: 4px solid var(--accent);">
+    <div style="font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 0.5rem;">Why this matters</div>
+    <p style="color: var(--ink); font-size: 1rem; line-height: 1.65; margin: 0;">
+      Hyperscale is building the AI-native intelligence layer for physical operations, starting with automating 
+      high-volume carrier workflows. This project shows how I approach the same class of problem: I identified 
+      the highest-friction operational bottleneck, mapped the end-to-end process across five tools and three 
+      teams, and built a structured system that turned fragmented manual work into a repeatable, trackable 
+      workflow. The same systems thinking that automated freight coordination for a B2B manufacturer applies 
+      directly to building the operational backbone for a fast-scaling AI company.
+    </p>
+  </div>
+</section>
+
+<!-- ══ PROBLEM / SOLUTION ══ -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-label">The Challenge</div>
+  <h2>Freight coordination was the company's biggest operational bottleneck</h2>
+  <p>
+    As a B2B manufacturer shipping heavy, oversized equipment to pharmaceutical, beverage, and food processing 
+    customers nationwide, freight logistics touched every department. But the process was entirely manual, 
+    with no standardized workflow, no centralized tracking, and no visibility into shipment status.
+  </p>
+
+  <div class="split-cards">
+    <div class="split-card problem">
+      <h3>Before: Manual and fragmented</h3>
+      <ul>
+        <li>Customer shipping details collected via ad hoc emails and phone calls with no standard format</li>
+        <li>Freight quotes scattered across individual email threads with no comparison framework</li>
+        <li>No centralized tracking from quote request through delivery confirmation</li>
+        <li>Packing dimensions, weights, and values re-entered multiple times across systems</li>
+        <li>Team members relied on memory and sticky notes for shipment status updates</li>
+        <li>Customers called repeatedly asking for tracking numbers and delivery estimates</li>
+      </ul>
+    </div>
+    <div class="split-card solution">
+      <h3>After: Automated and trackable</h3>
+      <ul>
+        <li>Standardized customer survey captures all shipping details in one submission</li>
+        <li>Quotes auto-populate a calculation sheet for instant three-way comparison</li>
+        <li>Single workbook tracks every shipment from intake through delivery with status columns</li>
+        <li>Data enters once at intake and flows through all downstream steps automatically</li>
+        <li>Physical whiteboard and digital tracking stay synchronized across team</li>
+        <li>Templated emails deliver quotes, invoices, and tracking proactively to customers</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SYSTEM ARCHITECTURE ══ -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-label">System Architecture</div>
+  <h2>Five connected tools, one unified workflow</h2>
+  <p>
+    Rather than purchasing new software, I built this system by connecting existing tools the team 
+    already used. The Google Sheets workbook serves as the operational hub, with four purpose-built 
+    tabs that move data through the pipeline without re-entry.
+  </p>
+
+  <div class="arch-grid">
+    <div class="arch-node">
+      <div class="arch-icon" style="background: #d8f3dc;">
+        <span>📋</span>
+      </div>
+      <h4>Google Forms</h4>
+      <p>Customer-facing freight survey collects shipping details in a structured format</p>
+    </div>
+    <div class="arch-node">
+      <div class="arch-icon" style="background: #d8f3dc;">
+        <span>📊</span>
+      </div>
+      <h4>Google Sheets</h4>
+      <p>Central hub with four tabs: Form Responses, In Motion Tracking, Freight Calculations, Invoice Tracking</p>
+    </div>
+    <div class="arch-node">
+      <div class="arch-icon" style="background: #e0e7ff;">
+        <span>📧</span>
+      </div>
+      <h4>Front (Email)</h4>
+      <p>Shared inbox with templated emails for broker requests, quotes, and tracking updates</p>
+    </div>
+    <div class="arch-node">
+      <div class="arch-icon" style="background: #fef3d0;">
+        <span>💬</span>
+      </div>
+      <h4>Zulip (Chat)</h4>
+      <p>Internal team communication for packing slips and shipment coordination</p>
+    </div>
+    <div class="arch-node">
+      <div class="arch-icon" style="background: #fde8e0;">
+        <span>🔧</span>
+      </div>
+      <h4>Odoo CRM</h4>
+      <p>Sales order management, payment processing, and invoice generation</p>
+    </div>
+  </div>
+
+  <div class="dataflow">
+    <h4>Data flow: From customer request to delivery confirmation</h4>
+    <div class="flow-diagram">
+      <div class="flow-node">
+        <div class="flow-node-label">Input</div>
+        <div class="flow-node-name">Google Form</div>
+      </div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node">
+        <div class="flow-node-label">Capture</div>
+        <div class="flow-node-name">Form Responses</div>
+      </div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node">
+        <div class="flow-node-label">Track</div>
+        <div class="flow-node-name">In Motion</div>
+      </div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node">
+        <div class="flow-node-label">Calculate</div>
+        <div class="flow-node-name">Freight Calcs</div>
+      </div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node">
+        <div class="flow-node-label">Fulfill</div>
+        <div class="flow-node-name">Odoo + BOL</div>
+      </div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node">
+        <div class="flow-node-label">Close</div>
+        <div class="flow-node-name">Invoice Track</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROCESS FLOW ══ -->
+<section class="flow-section">
+  <div class="flow-inner">
+    <div class="section-label">Workflow Detail</div>
+    <h2>13-step process, five phases</h2>
+    <p>
+      Each phase has defined handoffs, specific tools, and clear ownership. 
+      Click a phase below to see the step-by-step detail.
+    </p>
+
+    <div class="phase-nav">
+      <button class="phase-btn active" onclick="showPhase('intake')">1. Customer Intake</button>
+      <button class="phase-btn" onclick="showPhase('quote')">2. Quote Generation</button>
+      <button class="phase-btn" onclick="showPhase('payment')">3. Payment Processing</button>
+      <button class="phase-btn" onclick="showPhase('fulfill')">4. Fulfillment</button>
+      <button class="phase-btn" onclick="showPhase('close')">5. Close and Track</button>
+    </div>
+
+    <div class="steps-container">
+      <!-- INTAKE -->
+      <div class="step-group active" id="phase-intake">
+        <div class="step-group-header">
+          <div class="step-group-badge" style="background: var(--phase-intake)"></div>
+          <div class="step-group-title">Customer Intake</div>
+        </div>
+        <p class="step-group-desc">Standardized data collection eliminates back-and-forth emails and captures all required shipping details in one submission.</p>
+        
+        <div class="step-card">
+          <div class="step-num" style="background: var(--phase-intake)">1</div>
+          <div class="step-content">
+            <h5>Send freight survey to customer</h5>
+            <p>Team member sends the standardized Google Form link via email template. Form captures destination, contact info, dock availability, and special handling requirements.</p>
+          </div>
+          <div class="step-tool">Front</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num" style="background: var(--phase-intake)">2</div>
+          <div class="step-content">
+            <h5>Form auto-populates workbook</h5>
+            <p>Customer responses flow directly into "Form Responses 2" tab. A notification also arrives in the Shipping Front mailbox, alerting the team to a new request.</p>
+          </div>
+          <div class="step-tool">Sheets + Front</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num" style="background: var(--phase-intake)">3</div>
+          <div class="step-content">
+            <h5>Transfer to active tracking</h5>
+            <p>Copy customer responses from "Form Responses 2" to the "In Motion Freight Tracking" tab to begin the active fulfillment pipeline.</p>
+          </div>
+          <div class="step-tool">Sheets</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num" style="background: var(--phase-intake)">4</div>
+          <div class="step-content">
+            <h5>Complete shipment specifications</h5>
+            <p>Fill in green-highlighted columns using the packing slip from Zulip and the sales order: pallet dimensions, weight, SO number, declared value, and item descriptions.</p>
+          </div>
+          <div class="step-tool">Zulip + Sheets</div>
+        </div>
+      </div>
+
+      <!-- QUOTE -->
+      <div class="step-group" id="phase-quote">
+        <div class="step-group-header">
+          <div class="step-group-badge" style="background: var(--phase-quote)"></div>
+          <div class="step-group-title">Quote Generation</div>
+        </div>
+        <p class="step-group-desc">Broker communication and quote comparison are standardized through templates and a dedicated calculation tab.</p>
+
+        <div class="step-card">
+          <div class="step-num" style="background: var(--phase-quote)">5</div>
+          <div class="step-content">
+            <h5>Request pricing from freight broker</h5>
+            <p>Using the "BROKER 2" email template, send shipment details to Honest Freight for competitive carrier quotes.</p>
+          </div>
+          <div class="step-tool">Front</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num" style="background: var(--phase-quote)">6</div>
+          <div class="step-content">
+            <h5>Populate freight calculations</h5>
+            <p>When broker responds, open the attachment and copy quotes into the "Freight Calculations" tab for side-by-side comparison with built-in formulas.</p>
+          </div>
+          <div class="step-tool">Sheets</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num" style="background: var(--phase-quote)">7</div>
+          <div class="step-content">
+            <h5>Present options to customer</h5>
+            <p>Copy the final three comparison columns from "Freight Calculations" and email to the customer using the "3 - Quotes to Customer" template.</p>
+          </div>
+          <div class="step-tool">Front</div>
+        </div>
+      </div>
+
+      <!-- PAYMENT -->
+      <div class="step-group" id="phase-payment">
+        <div class="step-group-header">
+          <div class="step-group-badge" style="background: var(--phase-process)"></div>
+          <div class="step-group-title">Payment Processing</div>
+        </div>
+        <p class="step-group-desc">Freight cost is captured in the sales order and payment collected before any shipment is dispatched. This is a hard gate in the workflow.</p>
+
+        <div class="step-card">
+          <div class="step-num" style="background: var(--phase-process)">8</div>
+          <div class="step-content">
+            <h5>Add freight to sales order and collect payment</h5>
+            <p>Add the selected freight cost to the sales order in Odoo. Close the sales order and collect final payment. Do not proceed to fulfillment until payment is confirmed.</p>
+          </div>
+          <div class="step-tool">Odoo</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num" style="background: var(--phase-process)">8A</div>
+          <div class="step-content">
+            <h5>Handle carrier-specific routing</h5>
+            <p>If FedEx: work directly with FedEx for the LTL label. If TForce: email Old Dominion for a spot quote, providing the TForce amount to match along with full shipment details.</p>
+          </div>
+          <div class="step-tool">Front</div>
+        </div>
+      </div>
+
+      <!-- FULFILL -->
+      <div class="step-group" id="phase-fulfill">
+        <div class="step-group-header">
+          <div class="step-group-badge" style="background: var(--phase-fulfill)"></div>
+          <div class="step-group-title">Fulfillment</div>
+        </div>
+        <p class="step-group-desc">Dispatch coordination between the broker, warehouse, and carrier with clear documentation requirements.</p>
+
+        <div class="step-card">
+          <div class="step-num" style="background: var(--phase-fulfill)">9</div>
+          <div class="step-content">
+            <h5>Confirm and dispatch freight</h5>
+            <p>For non-FedEx carriers, confirm the customer's selection with Honest Freight to dispatch. They respond with a Bill of Lading (BOL) form.</p>
+          </div>
+          <div class="step-tool">Front</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num" style="background: var(--phase-fulfill)">9A</div>
+          <div class="step-content">
+            <h5>Verify PRO number on BOL</h5>
+            <p>If the BOL is missing the PRO tracking number, request it from Honest Freight or retrieve it from the driver's paperwork after pickup.</p>
+          </div>
+          <div class="step-tool">Front + Warehouse</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num" style="background: var(--phase-fulfill)">10</div>
+          <div class="step-content">
+            <h5>Record PRO number in tracking</h5>
+            <p>Add the PRO tracking number to the Invoice Tracking tab in the Google Sheets workbook for downstream reference and customer communication.</p>
+          </div>
+          <div class="step-tool">Sheets</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num" style="background: var(--phase-fulfill)">11</div>
+          <div class="step-content">
+            <h5>Prepare warehouse for pickup</h5>
+            <p>Print two copies of the BOL (one for the driver, one for the crate). Update the physical whiteboard status to "Dispatched" with carrier info. Move the card to the dispatched column.</p>
+          </div>
+          <div class="step-tool">Warehouse</div>
+        </div>
+      </div>
+
+      <!-- CLOSE -->
+      <div class="step-group" id="phase-close">
+        <div class="step-group-header">
+          <div class="step-group-badge" style="background: var(--phase-close)"></div>
+          <div class="step-group-title">Close and Track</div>
+        </div>
+        <p class="step-group-desc">Proactive customer communication closes the loop and eliminates inbound status inquiries.</p>
+
+        <div class="step-card">
+          <div class="step-num" style="background: var(--phase-close)">12</div>
+          <div class="step-content">
+            <h5>Send customer invoice and tracking</h5>
+            <p>Using the "4 - Freight Tracking" email template in Front, send the customer their paid invoice and PRO tracking number for carrier tracking.</p>
+          </div>
+          <div class="step-tool">Front</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DESIGN DECISIONS ══ -->
+<section class="section">
+  <div class="section-label">Design Rationale</div>
+  <h2>Why I built it this way</h2>
+  <p>
+    Every design choice prioritized adoption speed, cost efficiency, and reliability for a small 
+    team operating in a fast-paced manufacturing environment.
+  </p>
+
+  <div class="decisions-grid">
+    <div class="decision-card">
+      <div class="decision-tag tag-cost">Cost Efficiency</div>
+      <h4>Google Sheets as the operational hub</h4>
+      <p>The team already used Google Workspace daily. Building on existing tools meant zero licensing costs, no training overhead, and immediate adoption. The four-tab architecture separates concerns while keeping everything accessible in one workbook.</p>
+    </div>
+    <div class="decision-card">
+      <div class="decision-tag tag-accuracy">Data Integrity</div>
+      <h4>Structured form intake replaces free-text emails</h4>
+      <p>The Google Form enforces required fields and consistent formatting. This eliminated the most common delays: missing dock hours, incomplete addresses, and unspecified freight class requirements.</p>
+    </div>
+    <div class="decision-card">
+      <div class="decision-tag tag-speed">Speed</div>
+      <h4>Email templates in Front for every touchpoint</h4>
+      <p>Four pre-built templates (survey link, broker request, customer quotes, tracking confirmation) reduced per-shipment communication time and ensured consistent, professional messaging at every step.</p>
+    </div>
+    <div class="decision-card">
+      <div class="decision-tag tag-scale">Scalability</div>
+      <h4>Separated tabs for each workflow stage</h4>
+      <p>Form Responses captures raw input. In Motion Tracking manages active shipments. Freight Calculations handles pricing. Invoice Tracking closes the loop. This separation means any single tab can be upgraded or automated independently without breaking the whole system.</p>
+    </div>
+    <div class="decision-card">
+      <div class="decision-tag tag-accuracy">Accountability</div>
+      <h4>Payment gate before fulfillment</h4>
+      <p>The hard stop between payment collection (step 8) and dispatch (step 9) prevents the most expensive operational error: shipping equipment before payment is secured. This single rule change eliminated revenue leakage.</p>
+    </div>
+    <div class="decision-card">
+      <div class="decision-tag tag-speed">Customer Experience</div>
+      <h4>Proactive tracking communication</h4>
+      <p>By building the tracking notification into the workflow as a required final step, customers receive their invoice and PRO number without asking. This reduced inbound status inquiries and improved the post-sale experience.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ IMPACT ══ -->
+<section class="impact-strip">
+  <div class="impact-inner">
+    <div class="section-label">Operational Impact</div>
+    <h2>From bottleneck to repeatable system</h2>
+    <div class="impact-grid">
+      <div class="impact-card">
+        <div class="number">13</div>
+        <div class="label">Defined steps with clear handoffs and ownership</div>
+      </div>
+      <div class="impact-card">
+        <div class="number">5</div>
+        <div class="label">Connected tools unified into a single workflow</div>
+      </div>
+      <div class="impact-card">
+        <div class="number">4</div>
+        <div class="label">Templated customer touchpoints replacing ad hoc emails</div>
+      </div>
+      <div class="impact-card">
+        <div class="number">1</div>
+        <div class="label">Payment gate preventing shipment before collection</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SKILLS DEMONSTRATED ══ -->
+<section class="section">
+  <div class="section-label">Competencies Demonstrated</div>
+  <h2>What this project reflects</h2>
+  <p>
+    This project represents how I approach operational problems: identify the pain point, 
+    map the current state, design a system that works for the people who use it, and build 
+    it with tools the team can maintain independently. I thrive in ambiguity, move fast 
+    to prototype and iterate, and care deeply about building systems that compound over time.
+  </p>
+
+  <div class="skills-flex">
+    <span class="skill-tag">Zero-to-One Process Design</span>
+    <span class="skill-tag">Workflow Automation</span>
+    <span class="skill-tag">Cross-functional Coordination</span>
+    <span class="skill-tag">Freight and LTL Logistics</span>
+    <span class="skill-tag">CRM and Pipeline Operations</span>
+    <span class="skill-tag">Playbook Development</span>
+    <span class="skill-tag">Vendor and Partner Management</span>
+    <span class="skill-tag">Google Workspace / Sheets</span>
+    <span class="skill-tag">CRM Integration (Odoo, Salesforce, HubSpot)</span>
+    <span class="skill-tag">Email Automation (Front)</span>
+    <span class="skill-tag">SOP Documentation</span>
+    <span class="skill-tag">Data Flow Architecture</span>
+    <span class="skill-tag">Change Management</span>
+    <span class="skill-tag">Customer Communication Design</span>
+    <span class="skill-tag">KPI Dashboards and Reporting</span>
+    <span class="skill-tag">Revenue Operations</span>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div class="footer-name">Tenesha "Nena" Caviness</div>
+  <p>Santa Rosa, CA &nbsp;|&nbsp; 707-474-2000 &nbsp;|&nbsp; nena.caviness@gmail.com</p>
+  <p style="margin-top: 0.5rem;">
+    <a href="https://linkedin.com/in/nenacaviness">linkedin.com/in/nenacaviness</a>
+  </p>
+</footer>
+
+<script>
+function showPhase(phase) {
+  // Hide all groups
+  document.querySelectorAll('.step-group').forEach(g => g.classList.remove('active'));
+  // Show selected
+  document.getElementById('phase-' + phase).classList.add('active');
+  // Update buttons
+  document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>
